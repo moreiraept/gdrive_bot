@@ -1,6 +1,6 @@
 [![Slam](https://telegra.ph/file/019996f816db9ed576cff.jpg)]
 
-# Slam Mirror Bot
+# Gₐₛₕbᵣₑₐₖₑᵣ aka MoreiraPT
 This is a telegram bot writen in python for mirroring files on the internet to our beloved Google Drive.
 
 ## Deploying on Heroku
@@ -90,17 +90,60 @@ Fill up rest of the fields. Meaning of each fields are discussed below:
 - **TELEGRAM_API**: This is to authenticate to your Telegram account for downloading Telegram files. You can get this from https://my.telegram.org DO NOT put this in quotes.
 - **TELEGRAM_HASH**: This is to authenticate to your Telegram account for downloading Telegram files. You can get this from https://my.telegram.org
 - **OWNER_ID**: The Telegram user ID (not username) of the Owner of the bot
-- **DATABASE_URL**: Your Database URL. See [Generate Database](https://github.com/breakdowns/slam-mirrorbot/tree/master#generate-database) to generate database. (**NOTE**: If you deploying on Heroku using Heroku button, no need to generate database manually, because it will automatic generate database when first deploying)
+- **DATABASE_URL**: Your Database URL. See 
+1. Using ElephantSQL
+
+Go to https://elephantsql.com/ and create account (skip this if you already have ElephantSQL account)
+Hit Create New Instance
+Follow the further instructions in the screen
+Hit Select Region
+Hit Review
+Hit Create instance
+Select your database name
+Copy your database url, and fill to DATABASE_URL in config
+    
+(**NOTE**: If you deploying on Heroku using Heroku button, no need to generate database manually, because it will automatic generate database when first deploying)
 - **GDRIVE_FOLDER_ID**: This is the folder ID of the Google Drive Folder to which you want to upload all the mirrors.
 - **DOWNLOAD_DIR**: The path to the local folder where the downloads should be downloaded to
 - **DOWNLOAD_STATUS_UPDATE_INTERVAL**: A short interval of time in seconds after which the Mirror progress message is updated. (I recommend to keep it `5` seconds at least)  
 - **AUTO_DELETE_MESSAGE_DURATION**: Interval of time (in seconds), after which the bot deletes it's message (and command message) which is expected to be viewed instantly. (**Note**: Set to `-1` to never automatically delete messages)
-- **UPSTREAM_REPO**: Link for Bot Upstream Repo, if you want default update, fill ```https://github.com/breakdowns/slam-mirrorbot```.
+- **UPSTREAM_REPO**: Link for Bot Upstream Repo, if you want default update, fill ```https://github.com/moreiraept/gdrive_bot```.
 - **UPSTREAM_BRANCH**: Branch name for Bot Upstream Repo (Recommended using master branch)
 ### Optional Field
 - **AUTHORIZED_CHATS**: Fill user_id and chat_id of you want to authorize.
 - **IS_TEAM_DRIVE**: Set to `True` if `GDRIVE_FOLDER_ID` is from a Team Drive else `False` or Leave it empty.
-- **USE_SERVICE_ACCOUNTS**: (Leave empty if unsure) Whether to use Service Accounts or not. For this to work see [Using service accounts](https://github.com/breakdowns/slam-mirrorbot#generate-service-accounts-what-is-service-account) section below.
+- **USE_SERVICE_ACCOUNTS**: (Leave empty if unsure) Whether to use Service Accounts or not. 
+Let us create only the Service Accounts that we need. Warning: abuse of this feature is not the aim of this project and we do NOT recommend that you make a lot of projects, just one project and 100 SAs allow you plenty of use, its also possible that over abuse might get your projects banned by Google.
+
+NOTE: 1 Service Account can copy around 750gb a day, 1 project can make 100 Service Accounts so that's 75tb a day, for most users this should easily suffice.
+
+python3 gen_sa_accounts.py --quick-setup 1 --new-only
+A folder named accounts will be created which will contain keys for the Service Accounts.
+
+Or you can create Service Accounts to current project, no need to create new one
+
+List your projects ids
+python3 gen_sa_accounts.py --list-projects
+Enable services automatically by this command
+python3 gen_sa_accounts.py --enable-services $PROJECTID
+Create Sevice Accounts to current project
+python3 gen_sa_accounts.py --create-sas $PROJECTID
+Download Sevice Accounts as accounts folder
+python3 gen_sa_accounts.py --download-keys $PROJECTID
+If you want to add Service Accounts to Google Group, follow these steps
+
+Mount accounts folder
+cd accounts
+Grab emails form all accounts to emails.txt file that would be created in accounts folder
+grep -oPh '"client_email": "\K[^"]+' *.json > emails.txt
+Unmount acounts folder
+cd -
+Then add emails from emails.txt to Google Group, after that add Google Group to your Shared Drive and promote it to manager.
+
+NOTE: If you have created SAs in past from this script, you can also just re download the keys by running:
+
+python3 gen_sa_accounts.py --download-keys project_id
+
 - **INDEX_URL**: Refer to https://github.com/ParveenBhadooOfficial/Google-Drive-Index The URL should not have any trailing '/'
 - **MEGA_API_KEY**: Mega.nz api key to mirror mega.nz links. Get it from [Mega SDK Page](https://mega.nz/sdk)
 - **MEGA_EMAIL_ID**: Your email id you used to sign up on mega.nz for using premium accounts (Leave th)
@@ -215,7 +258,7 @@ python3 add_to_team_drive.py -d SharedTeamDriveSrcID
 ```
 
 ## Youtube-dl authentication using .netrc file
-For using your premium accounts in youtube-dl, edit the [.netrc](https://github.com/breakdowns/slam-mirrorbot/blob/master/.netrc) file according to following format:
+For using your premium accounts in youtube-dl, edit the [.netrc] file according to following format:
 ```
 machine host login username password my_youtube_password
 ```
