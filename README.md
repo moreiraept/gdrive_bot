@@ -1,8 +1,4 @@
-[![Slam](https://telegra.ph/file/019996f816db9ed576cff.jpg)](https://t.me/request_ayush)
-
-owner of this repo :- [AYUSH](https://github.com/ayushteke)
-
-contact me :- [AYUSH](https://t.me/request_ayush)
+[![Slam](https://telegra.ph/file/019996f816db9ed576cff.jpg)]
 
 # Slam Mirror Bot
 This is a telegram bot writen in python for mirroring files on the internet to our beloved Google Drive.
@@ -62,8 +58,8 @@ Deploying is pretty much straight forward and is divided into several steps as f
 
 - Clone this repo:
 ```
-git clone https://github.com/ayushteke/slam_aria_mirror_bot_HEROKU/
-cd slam_aria_mirror_bot_HEROKU
+git clone https://github.com/moreiraept/gdrive_bot/
+cd gdrive_bot
 ```
 
 - Install requirements
@@ -151,7 +147,7 @@ Three buttons are already added of Drive Link, Index Link, and View Link, you ca
 - Go to the Credentials tab and click Create Credentials -> OAuth Client ID
 - Choose Desktop and Create.
 - Use the download button to download your credentials.
-- clone this repo https://github.com/ayushteke/slam_aria_mirror_bot_HEROKU
+- clone this repo https://github.com/moreiraept/gdrive_bot
 - Move that file to the root of mirrorbot, and rename it to credentials.json
 - install the requirements-cli.txt file by using
 
